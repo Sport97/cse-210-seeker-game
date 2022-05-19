@@ -1,3 +1,4 @@
+from hashlib import new
 from game.terminal_service import TerminalService
 from game.hider import Hider
 from game.seeker import Seeker
@@ -25,6 +26,7 @@ class Director:
         self._is_playing = True
         self._seeker = Seeker()
         self._terminal_service = TerminalService()
+        self._new_location = ""
         
     def start_game(self):
         """Starts the game by running the main game loop.
@@ -43,8 +45,9 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        new_location = self._terminal_service.read_number("\nEnter a location [1-1000]: ")
-        self._seeker.move_location(new_location)
+        self._new_location = self._terminal_service.read_number("\nEnter a location [1-1000]: ")
+        self._terminal_service.show_hider_location(self._new_location)
+        self._seeker.move_location(self._new_location)
         
     def _do_updates(self):
         """Keeps watch on where the seeker is moving.
@@ -61,6 +64,15 @@ class Director:
             self (Director): An instance of Director.
         """
         hint = self._hider.get_hint()
-        self._terminal_service.write_text(hint)
+        if self._new_location == 0:
+            self._hider.reveal_location()
+        else:
+            self._terminal_service.write_text(hint)
         if self._hider.is_found():
             self._is_playing = False
+            play_again = self._terminal_service.player_again("\nPlay Again? (y/n) ")
+            if self._terminal_service.player_response(play_again):
+                self._hider.reset_location()
+                self._is_playing = True
+            else:
+                self._is_playing = False

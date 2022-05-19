@@ -37,3 +37,35 @@ class TerminalService:
             text (string): The text to display.
         """
         print(text)
+    
+    # def show_hider_location(self, new_location):
+    #     if new_location == 0:
+    #         return True
+    
+    def player_again(self, prompt):
+        """Gets text input from the terminal. Directs the user with the given prompt.
+
+        Args: 
+            self (TerminalService): An instance of TerminalService.
+            prompt (string): The prompt to display on the terminal.
+
+        Returns:
+            string: The user's input as text.
+        """
+        return input(prompt)
+    
+    def player_response(self, play_again):
+        """Gets text input from the terminal. Directs the user with the given prompt.
+
+        Args: 
+            self (TerminalService): An instance of TerminalService.
+            prompt (string): The prompt to display on the terminal.
+
+        Returns:
+            boolean: True if the player response equals yes; false if otherwise
+        """
+        if play_again.lower() == "y":
+            return True
+        else:
+            print("\nThanks For Playing!")
+        

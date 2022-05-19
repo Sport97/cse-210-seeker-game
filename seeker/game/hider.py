@@ -19,6 +19,9 @@ class Hider:
         self._location = random.randint(1, 1000)
         self._distance = [0, 0] # start with two so get_hint always works
     
+    def reveal_location(self):
+        print(self._location)
+    
     def get_hint(self):
         """Gets a hint for the seeker.
 
@@ -30,11 +33,13 @@ class Hider:
         """
         hint = "(-.-) Nap time."
         if self._distance[-1] == 0:
-            hint = "(;.;) You found me!"
+            hint = "You Found Me!"
         elif self._distance[-1] > self._distance[-2]:
-            hint = "(^.^) Getting colder!"
+            hint = "Getting Colder!"
         elif self._distance[-1] < self._distance[-2]:
-            hint = "(>.<) Getting warmer!"
+            hint = "Getting Warmer!"
+        elif self._distance[-1] == self._distance[-2]:
+            hint = "Try Again"
         return hint
 
     def is_found(self):
@@ -56,3 +61,12 @@ class Hider:
         """
         distance = abs(self._location - seeker.get_location())
         self._distance.append(distance)
+
+    def reset_location(self):
+        """Constructs a new location for hider.
+
+        Args:
+            self (Hider): An instance of Hider.
+        """
+        self._location = random.randint(1, 1000)
+        return self._location
